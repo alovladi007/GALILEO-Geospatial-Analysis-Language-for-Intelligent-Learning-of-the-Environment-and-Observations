@@ -1,6 +1,20 @@
-const API_URL = typeof window !== 'undefined' 
-  ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000')
-  : 'http://localhost:8000';
+// Determine API URL based on environment
+const getApiUrl = () => {
+  if (typeof window === 'undefined') {
+    // Server-side
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  }
+  
+  // Client-side
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  
+  // Default to localhost for development
+  return 'http://localhost:8000';
+};
+
+const API_URL = getApiUrl();
 
 import { mockSensors, generateMockAnomalies } from './mockData';
 

@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "node scripts/post-export.js",
-    "start": "next start",
+    "start": "next start -p $PORT",
+    "export": "next build && next export",
     "deploy": "npm run build && gh-pages -d out"
   },
   "dependencies": {

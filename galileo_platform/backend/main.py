@@ -25,3 +25,8 @@ app.include_router(ws.router)
 async def root():
     """Health-check endpoint."""
     return {"status": "ok", "message": "GALILEO backend is live"}
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Render."""
+    return {"status": "healthy", "service": "galileo-api", "version": "0.1.0"}

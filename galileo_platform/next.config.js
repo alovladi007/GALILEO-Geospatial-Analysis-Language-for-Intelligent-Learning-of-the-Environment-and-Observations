@@ -1,14 +1,9 @@
 const path = require('path');
 
-// When deploying to GitHub Pages set env NEXT_PUBLIC_BASE_PATH=<repo-name>
-const repo = process.env.NEXT_PUBLIC_BASE_PATH || '';
-const isGhPages = repo !== '';
-
 module.exports = {
-  output: 'export', // generate static HTML in `out/`
-  basePath: isGhPages ? `/${repo}` : '',
-  assetPrefix: isGhPages ? `/${repo}/` : '',
+  // Remove static export for Render deployment
   reactStrictMode: true,
+  swcMinify: true,
   webpack: (config) => {
     // CesiumJS requires access to static files at runtime
     config.resolve.alias['cesium'] = path.resolve(__dirname, 'node_modules/cesium');
