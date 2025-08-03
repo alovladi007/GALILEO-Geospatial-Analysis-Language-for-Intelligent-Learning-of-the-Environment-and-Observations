@@ -1,92 +1,156 @@
 
-# GALILEO Platform: Final Deployment (Frontend + Backend + PostgreSQL + ML)
+# GALILEO Platform
 
-## 🚀 Docker Deployment Guide
+**Geospatial Analysis Language for Intelligent Learning of the Environment and Observations**
 
-### Step 1: Build and Start Services
+## 🚀 Features
+
+- **Real-time Sensor Monitoring**: Live data from environmental sensors (temperature, salinity, air quality)
+- **ML-Powered Anomaly Detection**: Automatic detection of unusual patterns in sensor data
+- **Interactive 3D Maps**: Visualize sensor locations and data on interactive maps
+- **WebSocket Support**: Real-time data streaming for live updates
+- **RESTful API**: Full backend API for data management
+- **Responsive Dashboard**: Modern UI with real-time metrics and visualizations
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   Next.js UI    │────▶│  FastAPI Backend │────▶│   PostgreSQL    │
+│   (React)       │     │   (Python)       │     │   (PostGIS)     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+        │                        │
+        └────── WebSocket ───────┘
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js 14 (React framework)
+- Tailwind CSS (Styling)
+- Deck.gl (3D map visualization)
+- React Map GL (Map components)
+
+### Backend
+- FastAPI (Python web framework)
+- Uvicorn (ASGI server)
+- AsyncPG (PostgreSQL driver)
+- WebSockets (Real-time communication)
+
+## 📦 Installation
+
+### Option 1: Docker (Recommended)
+
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd galileo_platform
+
+# Start all services
 docker-compose up --build
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000/docs
 ```
 
-### Step 2: Access Services
-- Frontend: http://localhost:3000
-- Backend API (FastAPI): http://localhost:8000/docs
-- PostgreSQL DB: localhost:5432 (user: postgres, password: password)
+### Option 2: Manual Setup
 
-### Components:
-- PostgreSQL + PostGIS for spatial data storage
-- FastAPI backend for sensor, telemetry, and ML APIs
-- Next.js frontend (React-based UI)
-
----
-
-## Folder Structure
-- `/backend` - API source code
-- `/frontend` - Website and UI
-- `/public` - Assets and media
-- `GALILEO_ML_Training_Notebook.ipynb` - ML anomaly detection
-
-## Development Workflow
-
-### Prerequisites
-- Node.js ≥ 18
-- Python ≥ 3.10
-- PostgreSQL 15 with PostGIS extension
-
-### Environment Variables
-
-Create a `.env.local` in the project root with:
-
-```
-NEXT_PUBLIC_MAPBOX_TOKEN=<your Mapbox token>
-NEXT_PUBLIC_CESIUM_ION_TOKEN=<your Cesium ion token>
-```
-
-### Running Locally (without Docker)
-
-Terminal 1 – Start FastAPI backend:
+#### Backend Setup
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn backend.main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
-Terminal 2 – Start Next.js frontend:
+#### Frontend Setup
 ```bash
+# In the root galileo_platform directory
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+## 🌐 Deployment
 
-### Database Setup
+### GitHub Pages (Frontend Only)
 
-1. Create database `galileo` and enable PostGIS:
-   ```sql
-   CREATE DATABASE galileo;
-   \c galileo
-   CREATE EXTENSION postgis;
-   ```
-2. Run schema migrations:
-   ```bash
-   psql -U postgres -d galileo -f backend/schema.sql
-   ```
+The frontend is automatically deployed to GitHub Pages on push to main branch.
 
-### Linting & Formatting
+### Full Stack Deployment
 
-This repo uses **Prettier** (JS) and **ruff** (Python):
+For full functionality with backend:
+
+1. Deploy backend to a cloud service (Heroku, AWS, etc.)
+2. Update `NEXT_PUBLIC_API_URL` in `.env.production`
+3. Deploy frontend with updated environment variables
+
+## 📡 API Endpoints
+
+### Sensors
+- `GET /sensors/sample` - Get sample sensor data
+- `POST /sensors` - Create new sensor reading
+
+### Machine Learning
+- `POST /ml/detect_anomalies` - Detect anomalies in sensor data
+
+### WebSocket
+- `WS /ws` - Real-time data stream
+
+## 🔧 Environment Variables
+
+```env
+# Frontend
+NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_BASE_PATH=
+
+# Backend
+DATABASE_URL=postgresql://user:pass@localhost/galileo
+```
+
+## 📊 Features in Detail
+
+### Live Dashboard
+- Real-time sensor status monitoring
+- Anomaly detection alerts
+- System health metrics
+- Live data streaming visualization
+
+### Interactive Map
+- Sensor location visualization
+- Heat map overlay
+- Interactive tooltips
+- 3D terrain view
+
+### ML Capabilities
+- Anomaly detection algorithm
+- Pattern recognition
+- Predictive analytics (coming soon)
+
+## 🧪 Development
+
 ```bash
-npm run lint          # JS/TS
-ruff check backend    # Python
+# Run tests
+npm test
+
+# Lint code
+npm run lint
+
+# Build for production
+npm run build
 ```
 
-### GitHub Pages deployment
+## 📝 License
 
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically builds a static export and publishes it to the `gh-pages` branch on every push to `main`.  
-The site will be available at:
-```
-https://<your-username>.github.io/<repo-name>/
-```
+MIT License - see LICENSE file for details
 
-If you fork/rename the project set the Pages source to the `gh-pages` branch in the repository settings. No extra steps are necessary after pushing to `main`.
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📞 Support
+
+For issues and questions, please open a GitHub issue.
