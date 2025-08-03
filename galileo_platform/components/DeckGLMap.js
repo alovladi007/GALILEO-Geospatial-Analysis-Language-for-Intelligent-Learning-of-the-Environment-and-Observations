@@ -1,4 +1,4 @@
-import { StaticMap } from "react-map-gl";
+import Map from "react-map-gl";
 import DeckGL from "@deck.gl/react";
 import { ScatterplotLayer } from "@deck.gl/layers";
 
@@ -26,7 +26,7 @@ export default function DeckGLMap() {
       layers={[scatterLayer]}
       style={{ width: "100%", height: "600px" }}
     >
-      <StaticMap
+      <Map
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       />
