@@ -80,3 +80,13 @@ This repo uses **Prettier** (JS) and **ruff** (Python):
 npm run lint          # JS/TS
 ruff check backend    # Python
 ```
+
+### GitHub Pages deployment
+
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically builds a static export and publishes it to the `gh-pages` branch on every push to `main`.  
+The site will be available at:
+```
+https://<your-username>.github.io/<repo-name>/
+```
+
+If you fork/rename the project set the Pages source to the `gh-pages` branch in the repository settings. No extra steps are necessary after pushing to `main`.
