@@ -1,10 +1,16 @@
-import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 
-const Viewer = dynamic(() => import('resium').then(mod => mod.Viewer), { ssr: false });
-import { Ion } from 'cesium';
+// Cesium imports must be dynamic to avoid SSR issues
+let Viewer = null;
+let Ion = null;
 
-Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ION_TOKEN || '';
+if (typeof window !== 'undefined') {
+  const resium = require('resium');
+  const cesium = require('cesium');
+  Viewer = resium.Viewer;
+  Ion = cesium.Ion;
+  Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ION_TOKEN || '';
+}
 
 export default function CesiumViewer() {
   useEffect(() => {
@@ -17,5 +23,11 @@ export default function CesiumViewer() {
     }
   }, []);
 
+  if (!Viewer) {
+    return <div className="w-full h-[600px] bg-gray-800 flex items-center justify-center text-gray-400">
+      Loading 3D Globe...
+    </div>;
+  }
+  
   return <Viewer full />;
 }

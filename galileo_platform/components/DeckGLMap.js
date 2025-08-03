@@ -19,6 +19,7 @@ const scatterLayer = new ScatterplotLayer({
 });
 
 export default function DeckGLMap() {
+  // Use a public map style that doesn't require a token
   return (
     <DeckGL
       initialViewState={{ longitude: 0, latitude: 20, zoom: 1.5, pitch: 30 }}
@@ -28,7 +29,6 @@ export default function DeckGLMap() {
     >
       <Map
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       />
     </DeckGL>
   );
