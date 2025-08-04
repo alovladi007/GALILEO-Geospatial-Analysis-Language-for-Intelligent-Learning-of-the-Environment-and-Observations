@@ -18,7 +18,8 @@ app.add_middleware(
 app.include_router(sensors.router)
 app.include_router(telemetry.router)
 app.include_router(ml.router)
-app.include_router(ws.router)
+# WebSocket router - commenting out for now to avoid deployment issues
+# app.include_router(ws.router)
 
 
 @app.get("/")
